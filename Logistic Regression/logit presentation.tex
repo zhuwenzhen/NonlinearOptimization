@@ -170,16 +170,39 @@ sample, they are the length and the width of sepal and petal.
 %------------------------------------------------
 \begin{frame}
 \frametitle{Sigmoid Function 1D}
-\[y(x)=\frac{1}{1+e^{-x}}\]
-%\includegraphics[width=3cm]{1d-sigmoid}
+\[h(x)=\frac{1}{1+e^{-x}}\]
 \begin{figure}[t]
-\includegraphics[width=6cm]{graphics/1d-sigmoid}
+\includegraphics[width=5cm]{graphics/1d-sigmoid}
 \centering
 \end{figure}
 \end{frame}
+
 %------------------------------------------------
 \begin{frame}
-
+\begin{figure}[t]
+\includegraphics[width=5cm]{graphics/1d-sigmoid}
+\centering
+\end{figure}
+\[h(x)>=\frac{1}{2}  \Rightarrow class 1\]
+\[h(x)<\frac{1}{2}  \Rightarrow class 0\]
+\[h(x)=P(y=1|x)\]
+\[1-h(x)=P(y=0|x)\]
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+3D Visualization \\
+See a Mathematica Dynamic Visualization
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Maximum Likelihood}
+\begin{equation}
+L = \prod_{i=1}^n P(y = y^{(i)}  | x = x^{(i)}) 
+= \prod_{y^{(i)} = 0 } (1-h(x^{(i)})) \prod_{y^{(i)} = 1 } (h(x^{(i)}))
+\end{equation}
+\begin{equation}
+l =  \log (L) = \sum_{y^{(i)} = 0 } \log (1-h(x^{(i)})) \sum_{y^{(i)} = 1} \log (h(x^{(i)}))
+\end{equation}
 \end{frame}
 
 %----------------------------------------------------------------------------------------
