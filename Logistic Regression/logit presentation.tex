@@ -79,9 +79,6 @@
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage{dsfont}
-\usepackage{amsmath}
-\usepackage{bm}
-\usepackage{subcaption}
 \usepackage{subfig}
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -104,10 +101,10 @@ Washington University in St. Louis \\ % Your institution for the title page
 \titlepage % Print the title page as the first slide
 \end{frame}
 
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES Section 2
+%----------------------------------------------------------------------------------------
 
-%----------------------------------------------------------------------------------------
-%	PRESENTATION SLIDES
-%----------------------------------------------------------------------------------------
 \begin{frame}
 \frametitle{Logistic Regression}
 \begin{itemize}
@@ -115,22 +112,59 @@ Washington University in St. Louis \\ % Your institution for the title page
 \item Multi-class Classification
 \end{itemize}
 \end{frame}
+
 %------------------------------------------------
 \begin{frame}
-
-\frametitle{A Fisher Iris Example}
-    \begin{figure}[htbp] \centering \subfloat[??]{    \label{fig:subfig_a}    \includegraphics{setosa}    }\caption{????} \end{figure}
-
+\frametitle{Fisher's Iris}
 The data set consists of 50 samples from each of three 
 species of iris flowers.  Four features were measured from each
 sample, they are the length and the width of sepal and petal. This data set is often used
 to demonstrate classification techniques and discriminant analysis.
+\begin{figure}[htbp] \centering \subfloat[setosa]{    \label{fig:subfig_a}    \includegraphics[scale=.4]{graphics/setosa}}\hspace{20pt} \subfloat[versicolor]{    \label{fig:subfig_b}    \includegraphics[scale=.4]{graphics/versicolor}}
+\hspace{20pt} \subfloat[virginica]{    \label{fig:subfig_c}    \includegraphics[scale=.4]{graphics/virginica}}\caption{Iris } \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Fisher's Iris}
+Four features were measured from each
+sample, they are the length and the width of sepal and petal.
+\begin{figure}[htbp]\centering\includegraphics[scale=.35]{graphics/iris_feature} \caption{Features}\label{fig:Features}\end{figure}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Sample Data}
+\begin{table}
+\begin{tabular}{lllll}
+\hline
+\textbf{Sepal Length} & \textbf{ Sepal Width } & \textbf{Petal Length} & \textbf{Petal Width} & \textbf{Species}\\
+\hline
+5.8 & 4.   & 1.2 & 0.2 & setosa\\
+6.4 & 2.8 & 5.6 & 2.1 & virginica\\
+6.7 & 3.1 & 5.6 & 2.4 & virginica \\
+\hline
+\end{tabular}
+\caption{Fisher's Iris Dataset Sample}
+\end{table}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Visualization of Iris Dataset}
+\begin{figure}[t]
+\includegraphics[scale=0.5]{graphics/feature_vis}
+\centering
+\end{figure}
 \end{frame}
 %------------------------------------------------
 
 \begin{frame}
 \frametitle{}
 \[\text{Let's start from binary classification y $\in $ $\{$0, 1$\}$}\]
+
+\[\text{y $\in $ $\{$0, 1$\}$   0 $\to $ versicolor 1$\to $ virginica}\]
+\[	
+	x = (x_ 1, x_ 2) \
+		where \ x_1 = \text{sepal width}, x_2 = \text{petal width}\]
 \end{frame}
 
 %------------------------------------------------
@@ -139,41 +173,84 @@ to demonstrate classification techniques and discriminant analysis.
 \[y(x)=\frac{1}{1+e^{-x}}\]
 %\includegraphics[width=3cm]{1d-sigmoid}
 \begin{figure}[t]
-\includegraphics[width=6cm]{1d-sigmoid}
+\includegraphics[width=6cm]{graphics/1d-sigmoid}
 \centering
 \end{figure}
 \end{frame}
 %------------------------------------------------
 \begin{frame}
-\frametitle{Sigmoid Function 2D}
-\[y(\mathbf{x})=\frac{1}{1+e^{- ({w_0} + {w_1}  {x_1} + {w_2} {x_2} )  }}\]
-%\includegraphics[width=3cm]{1d-sigmoid}
-\begin{figure}[t]
-\includegraphics[width=6cm]{1d-sigmoid}
-\centering
-\end{figure}
+
 \end{frame}
-%------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES Section 1
+%----------------------------------------------------------------------------------------
 \begin{frame}
 \frametitle{Binary classification} % Table of contents slide, comment this block out to remove it
 \tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
-\section{Key problem in supervised machine learning}
-\section{Predict binary output from input variables}
-Examples:
-\begin{itemize}
-\item Spam or not spam
-\item Disease or no disease
-\item Rain or no rain
-\item Win or lose election etc.
-\end{itemize}
+\section{Key problem in supervised machine learning.}
+%------------------------------------------------
+\section{Predict binary output from input variables, e.g.}
+%Examples:
+%\begin{itemize}
+\subsection{Spam or not spam}
+\subsection{Disease or no disease}
+\subsection{Rain or no rain}
+\subsection{Win or lose election etc.}
+%\end{itemize}
+%\section{Binary classification} % Sections can be created in order to organize your presentation into discrete blocks, all sections and subsections are automatically printed in the table of contents as an overview of the talk
+%------------------------------------------------
+
+%\subsection{Spam or not spam} % A subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
+%\subsection{Disease or no disease etc.}
+\section{Simplest classifiers: linear classifiers.}
 \end{frame}
 
 \begin{frame}
 \frametitle{Linear classification}
-Output 0 or 1 based on decision boundary on linear function:
+Output binary class (0 or 1) based on where a linear combination of the input feature vector lies with respect to the decision boundary:
 \begin{equation}
-y = \text{sign} (\theta^T x)
+y = \frac{1}{2}(1 + \text{sign} (\theta^T x))
 \end{equation}
+$x \in \mathds{R}^{n+1}, \theta \in \mathds{R}^{n+1}; y \in \{0,1\}.$\\
+
+\begin{itemize}
+\item $ \theta^T x = 0 \implies \text{decision boundary}$
+\item $ \theta^T x > 0 \implies y = 1$
+\item $ \theta^T x  < 0 \implies y = 0$
+\end{itemize}
+
+
+The decision boundary (i.e. $\theta$) is learned from the training data.
+\end{frame}
+
+\begin{frame}
+\frametitle{Linear classification (contd.)}
+%\begin{figure}
+%\includegraphics[width=0.6\linewidth]{lda_binary.png}
+%\caption{Example of linear classification}
+%\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Hard vs. soft threshold}
+\begin{itemize}
+\item Exact binary prediction (\textit{hard threshold}) may be impractical - does not reveal the confidence in the prediction.
+\item Express as \textit{probability} of belonging to a class (\textit{soft threshold}), e.g. probability of raining, probability of a heart disease etc. \item Instead of a strict binary value, the classifier output is a real number between 0 and 1 - interpreted as class probability.
+\item This leads to \textbf{logistic regression}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Modeling conditional probabilities}
+\begin{itemize}
+\item Determine a conditional probability distribution, or \textit{likelihood} $Pr(Y|X)$ that best describes the observed data.
+\item Assuming $Pr(Y=1|X=x) = p(x;\theta)$ for some function $p$ parameterized by $\theta$ and with $i.i.d.$ observation variables, the conditional likelihood function $P(Y|X)$ is,
+\begin{equation}
+\prod_{i=1}^n Pr(Y=y_i|X=x_i) = \prod_{i=1}^n p(x_i;\theta)^{y_i} (1-p(x_i;\theta)^{1-y_i})
+\end{equation}
+\item Estimate $\theta$ by \textit{maximum likelihood estimation}.  
+\end{itemize}
 \end{frame}
 
 \begin{frame}
