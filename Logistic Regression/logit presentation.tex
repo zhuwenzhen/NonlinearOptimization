@@ -30,7 +30,7 @@
 %\usetheme{Berkeley}
 %\usetheme{Berlin}
 %\usetheme{Boadilla}
-\usetheme{CambridgeUS}
+ \usetheme{CambridgeUS}
 %\usetheme{Copenhagen}
 %\usetheme{Darmstadt}
 %\usetheme{Dresden}
@@ -79,7 +79,15 @@
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage{dsfont}
+
+% Wenzhen's part needs extra packages
 \usepackage{subfig}
+\usepackage{multicol}
+\usepackage{ amssymb }
+%\usepackage{physics}
+%\usepackage{sfmath}
+\usepackage{amsmath,amsfonts,amsthm,bm} % Math packages
+\DeclareMathAlphabet{\mathbbm}{U}{bbm}{m}{n}
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
@@ -101,10 +109,14 @@ Washington University in St. Louis \\ % Your institution for the title page
 \titlepage % Print the title page as the first slide
 \end{frame}
 
+\begin{frame}
+\frametitle{Overview} % Table of contents slide, comment this block out to remove it
+\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+\end{frame}
 %----------------------------------------------------------------------------------------
 %	PRESENTATION SLIDES Section 2
 %----------------------------------------------------------------------------------------
-
+\section{Logistic Regression} 
 \begin{frame}
 \frametitle{Logistic Regression}
 \begin{itemize}
@@ -114,14 +126,26 @@ Washington University in St. Louis \\ % Your institution for the title page
 \end{frame}
 
 %------------------------------------------------
+\subsection{Iris Flower}
 \begin{frame}
 \frametitle{Fisher's Iris}
 The data set consists of 50 samples from each of three 
 species of iris flowers.  Four features were measured from each
 sample, they are the length and the width of sepal and petal. This data set is often used
 to demonstrate classification techniques and discriminant analysis.
-\begin{figure}[htbp] \centering \subfloat[setosa]{    \label{fig:subfig_a}    \includegraphics[scale=.4]{graphics/setosa}}\hspace{20pt} \subfloat[versicolor]{    \label{fig:subfig_b}    \includegraphics[scale=.4]{graphics/versicolor}}
-\hspace{20pt} \subfloat[virginica]{    \label{fig:subfig_c}    \includegraphics[scale=.4]{graphics/virginica}}\caption{Iris } \end{figure}
+\begin{figure}[htbp] \centering \subfloat[setosa]{
+    \label{fig:subfig_a}
+    \includegraphics[scale=.4]{graphics/setosa}
+}
+\hspace{20pt} \subfloat[versicolor]{
+    \label{fig:subfig_b}
+    \includegraphics[scale=.4]{graphics/versicolor}
+}
+\hspace{20pt} \subfloat[virginica]{
+    \label{fig:subfig_c}
+    \includegraphics[scale=.4]{graphics/virginica}
+}
+\caption{Iris } \end{figure}
 \end{frame}
 
 %------------------------------------------------
@@ -129,7 +153,11 @@ to demonstrate classification techniques and discriminant analysis.
 \frametitle{Fisher's Iris}
 Four features were measured from each
 sample, they are the length and the width of sepal and petal.
-\begin{figure}[htbp]\centering\includegraphics[scale=.35]{graphics/iris_feature} \caption{Features}\label{fig:Features}\end{figure}
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=.35]{graphics/iris_feature} \caption{Features}
+\label{fig:Features}
+\end{figure}
 \end{frame}
 %------------------------------------------------
 \begin{frame}
@@ -156,37 +184,59 @@ sample, they are the length and the width of sepal and petal.
 \end{figure}
 \end{frame}
 %------------------------------------------------
-
+\subsection{Binary Classification}
 \begin{frame}
 \frametitle{}
 \[\text{Let's start from binary classification y $\in $ $\{$0, 1$\}$}\]
 
-\[\text{y $\in $ $\{$0, 1$\}$   0 $\to $ versicolor 1$\to $ virginica}\]
+\[\text{y $\in $ $\{$0, 1$\}$   where 0 $\to $ versicolor 1$\to $ virginica}\]
 \[	
-	x = (x_ 1, x_ 2) \
+	\mathbf{x} = (x_ 1, x_ 2) \
 		where \ x_1 = \text{sepal width}, x_2 = \text{petal width}\]
 \end{frame}
-
 %------------------------------------------------
 \begin{frame}
-\frametitle{Sigmoid Function 1D}
-\[h(x)=\frac{1}{1+e^{-x}}\]
+\frametitle{Sigmoid Function}
+\[p(x)=\frac{1}{1+e^{-x}}\]
 \begin{figure}[t]
 \includegraphics[width=5cm]{graphics/1d-sigmoid}
 \centering
 \end{figure}
 \end{frame}
-
 %------------------------------------------------
 \begin{frame}
+\begin{multicols}{2} % 2 columns
 \begin{figure}[t]
 \includegraphics[width=5cm]{graphics/1d-sigmoid}
 \centering
 \end{figure}
-\[h(x)>=\frac{1}{2}  \Rightarrow class 1\]
-\[h(x)<\frac{1}{2}  \Rightarrow class 0\]
-\[h(x)=P(y=1|x)\]
-\[1-h(x)=P(y=0|x)\]
+\columnbreak  % seperate
+In this example, you can think 
+\[ \bm{\theta} = (\theta_{0}, \theta_{1}) \ and \ \mathbf{x} = (1, x)\]
+therefore, 
+\[p(\mathbf{x}) =  \frac{1}{1+e^{- ( \theta_{0} +  \theta_{1} \cdot  x )}} \]
+\end{multicols}
+
+\begin{multicols}{2}
+\[p(x) \geq \frac{1}{2}  \Rightarrow class 1\]
+\[p(x)<\frac{1}{2}  \Rightarrow class 0\]
+\columnbreak 
+\[p(\mathbf{x})=P(y=1|\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot\mathbf{x}}}\]
+\[1-p(\mathbf{x})=P(y=0|\mathbf{x}) = \frac{e^{-\bm{\theta} \cdot \mathbf{x}}} {1+e^{-\bm{\theta}\cdot \mathbf{x}}} \]
+\end{multicols}
+
+\end{frame}
+%------------------------------------------------ 
+\begin{frame}
+\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} \geq \frac{1}{2} \Leftrightarrow \bm{\theta} \cdot \mathbf{x} > 0 \Rightarrow class 1\]
+\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} <\frac{1}{2}  \Leftrightarrow \bm{\theta} \cdot \mathbf{x} < 0 \Rightarrow class 0\]
+\\
+\begin{block}{Conclusion}
+\begin{itemize}
+\item Logistic regression gives us a \textbf{linear classifier}. \\
+\item $\bm{\theta}  \cdot \mathbf{x} = 0$ is \textbf{decision boundary}. 
+\end{itemize}
+\end{block}
 \end{frame}
 %------------------------------------------------
 \begin{frame}
@@ -194,197 +244,46 @@ sample, they are the length and the width of sepal and petal.
 See a Mathematica Dynamic Visualization
 \end{frame}
 %------------------------------------------------
+\subsection{Likelihood Function for Logistic Regression}
 \begin{frame}
 \frametitle{Maximum Likelihood}
+
+% likelihood
 \begin{equation}
-L = \prod_{i=1}^n P(y = y^{(i)}  | x = x^{(i)}) 
-= \prod_{y^{(i)} = 0 } (1-h(x^{(i)})) \prod_{y^{(i)} = 1 } (h(x^{(i)}))
+\begin{aligned}
+L(\bm{\theta}) &= \prod_{i=1}^n P(Y = y_{i}  | X = \mathbf{x}_{i}) = \prod_{y_{i} = 0 } (1-p(\mathbf{x}_{i})) \prod_{y_{i} = 1 } (p(\mathbf{x}_{i})) \\
+&= \prod_{i=1}^{n} p(x_{i})^{y_{i}} \cdot (1-p(x_{i}))^{(1-{y_{i}})}
+\end{aligned}
 \end{equation}
+
 \begin{equation}
-l =  \log (L) = \sum_{y^{(i)} = 0 } \log (1-h(x^{(i)})) \sum_{y^{(i)} = 1} \log (h(x^{(i)}))
+\begin{aligned}
+l (\bm{\theta}) &=  \log (L(\bm{\theta}) ) = \sum_{i=1}^{n} y_{i} \log(p(x_{i}) + (1-y_{i}) \log(1-p(x_{i})) \\
+&= \sum_{y_{i} = 0 } \log (1-h(x_{i})) \sum_{y_{i} = 1} \log (h(x_{i})) \\
+\end{aligned}
 \end{equation}
+Since $f(x) = log(x)$ is a monotonically increasing function, maximizing $L(\bm{\theta})$ is equivalent as maximizing $l(\bm{\theta})$
 \end{frame}
-
-%----------------------------------------------------------------------------------------
-%	PRESENTATION SLIDES Section 1
-%----------------------------------------------------------------------------------------
+%------------------------------------------------
 \begin{frame}
-\frametitle{Binary classification} % Table of contents slide, comment this block out to remove it
-\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
-\section{Key problem in supervised machine learning.}
-%------------------------------------------------
-\section{Predict binary output from input variables, e.g.}
-%Examples:
-%\begin{itemize}
-\subsection{Spam or not spam}
-\subsection{Disease or no disease}
-\subsection{Rain or no rain}
-\subsection{Win or lose election etc.}
-%\end{itemize}
-%\section{Binary classification} % Sections can be created in order to organize your presentation into discrete blocks, all sections and subsections are automatically printed in the table of contents as an overview of the talk
-%------------------------------------------------
+\frametitle{Maximum Likelihood Estimation}
+Set derivatives equal to zero, then solve, we will find the maximum likelihood.
 
-%\subsection{Spam or not spam} % A subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
-%\subsection{Disease or no disease etc.}
-\section{Simplest classifiers: linear classifiers.}
+%\begin{equation}
+%\begin{aligned}
+%\frac {\partial l} {\partial \theta_{j}} = - \sum_{i=1}^{n} ddd
+%
+%\end{aligned}
+%\end{equation}
 \end{frame}
-
+%------------------------------------------------
+\subsection{Logistic Regression with More Than Two Classes}
 \begin{frame}
-\frametitle{Linear classification}
-Output binary class (0 or 1) based on where a linear combination of the input feature vector lies with respect to the decision boundary:
+\frametitle{Logistic Regression with More Than Two Classes}
 \begin{equation}
-y = \frac{1}{2}(1 + \text{sign} (\theta^T x))
+P(Y = c | X = x) = \frac{exp ({w x })}{ \sum_{k}^N exp(w x) }
 \end{equation}
-$x \in \mathds{R}^{n+1}, \theta \in \mathds{R}^{n+1}; y \in \{0,1\}.$\\
-
-\begin{itemize}
-\item $ \theta^T x = 0 \implies \text{decision boundary}$
-\item $ \theta^T x > 0 \implies y = 1$
-\item $ \theta^T x  < 0 \implies y = 0$
-\end{itemize}
-
-
-The decision boundary (i.e. $\theta$) is learned from the training data.
-\end{frame}
-
-\begin{frame}
-\frametitle{Linear classification (contd.)}
-%\begin{figure}
-%\includegraphics[width=0.6\linewidth]{lda_binary.png}
-%\caption{Example of linear classification}
-%\end{figure}
-\end{frame}
-
-\begin{frame}
-\frametitle{Hard vs. soft threshold}
-\begin{itemize}
-\item Exact binary prediction (\textit{hard threshold}) may be impractical - does not reveal the confidence in the prediction.
-\item Express as \textit{probability} of belonging to a class (\textit{soft threshold}), e.g. probability of raining, probability of a heart disease etc. \item Instead of a strict binary value, the classifier output is a real number between 0 and 1 - interpreted as class probability.
-\item This leads to \textbf{logistic regression}.
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Modeling conditional probabilities}
-\begin{itemize}
-\item Determine a conditional probability distribution, or \textit{likelihood} $Pr(Y|X)$ that best describes the observed data.
-\item Assuming $Pr(Y=1|X=x) = p(x;\theta)$ for some function $p$ parameterized by $\theta$ and with $i.i.d.$ observation variables, the conditional likelihood function $P(Y|X)$ is,
-\begin{equation}
-\prod_{i=1}^n Pr(Y=y_i|X=x_i) = \prod_{i=1}^n p(x_i;\theta)^{y_i} (1-p(x_i;\theta)^{1-y_i})
-\end{equation}
-\item Estimate $\theta$ by \textit{maximum likelihood estimation}.  
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Paragraphs of Text}
-Sed iaculis dapibus gravida. Morbi sed tortor erat, nec interdum arcu. Sed id lorem lectus. Quisque viverra augue id sem ornare non aliquam nibh tristique. Aenean in ligula nisl. Nulla sed tellus ipsum. Donec vestibulum ligula non lorem vulputate fermentum accumsan neque mollis.\\~\\
-
-Sed diam enim, sagittis nec condimentum sit amet, ullamcorper sit amet libero. Aliquam vel dui orci, a porta odio. Nullam id suscipit ipsum. Aenean lobortis commodo sem, ut commodo leo gravida vitae. Pellentesque vehicula ante iaculis arcu pretium rutrum eget sit amet purus. Integer ornare nulla quis neque ultrices lobortis. Vestibulum ultrices tincidunt libero, quis commodo erat ullamcorper id.
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Bullet Points}
-\begin{itemize}
-\item Lorem ipsum dolor sit amet, consectetur adipiscing elit
-\item Aliquam blandit faucibus nisi, sit amet dapibus enim tempus eu
-\item Nulla commodo, erat quis gravida posuere, elit lacus lobortis est, quis porttitor odio mauris at libero
-\item Nam cursus est eget velit posuere pellentesque
-\item Vestibulum faucibus velit a augue condimentum quis convallis nulla gravida
-\end{itemize}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Blocks of Highlighted Text}
-\begin{block}{Block 1}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
-\end{block}
-
-\begin{block}{Block 2}
-Pellentesque sed tellus purus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum quis magna at risus dictum tempor eu vitae velit.
-\end{block}
-
-\begin{block}{Block 3}
-Suspendisse tincidunt sagittis gravida. Curabitur condimentum, enim sed venenatis rutrum, ipsum neque consectetur orci, sed blandit justo nisi ac lacus.
-\end{block}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Multiple Columns}
-\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
-
-\column{.45\textwidth} % Left column and width
-\textbf{Heading}
-\begin{enumerate}
-\item Statement
-\item Explanation
-\item Example
-\end{enumerate}
-
-\column{.5\textwidth} % Right column and width
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
-
-\end{columns}
-\end{frame}
-
-%------------------------------------------------
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Table}
-\begin{table}
-\begin{tabular}{l l l}
-\toprule
-\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
-\midrule
-Treatment 1 & 0.0003262 & 0.562 \\
-Treatment 2 & 0.0015681 & 0.910 \\
-Treatment 3 & 0.0009271 & 0.296 \\
-\bottomrule
-\end{tabular}
-\caption{Table caption}
-\end{table}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Theorem}
-\begin{theorem}[Mass--energy equivalence]
-$E = mc^2$
-\end{theorem}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
-\frametitle{Verbatim}
-\begin{example}[Theorem Slide Code]
-\begin{verbatim}
-\begin{frame}
-\frametitle{Theorem}
-\begin{theorem}[Mass--energy equivalence]
-$E = mc^2$
-\end{theorem}
-\end{frame}\end{verbatim}
-\end{example}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Figure}
-Uncomment the code on this slide to include your own image from the same directory as the template .TeX file.
-%\begin{figure}
-%\includegraphics[width=0.8\linewidth]{test}
-%\end{figure}
+Typically, to find the maximum likelihood estimates, we'd differentiate the log-likelihood with respect to the parameters. Set the derivative equal to zero, and solve. 
 \end{frame}
 
 %------------------------------------------------
