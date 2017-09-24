@@ -119,123 +119,6 @@ Washington University in St. Louis \\ % Your institution for the title page
 \section{Logistic Regression} 
 
 %------------------------------------------------
-\subsection{Sigmoid Function}
-\begin{frame}
-\frametitle{Sigmoid Function}
-\[p(x)=\frac{1}{1+e^{-x}}\]
-\begin{figure}[t]
-\includegraphics[width=5cm]{graphics/1d-sigmoid}
-\centering
-\end{figure}
-\end{frame}
-%------------------------------------------------
-\begin{frame}
-\begin{multicols}{2} % 2 columns
-\begin{figure}[t]
-\includegraphics[width=5cm]{graphics/1d-sigmoid}
-\centering
-\end{figure}
-\columnbreak  % seperate
-In this example, you can think 
-\[ \bm{\theta} = (\theta_{0}, \theta_{1}) \ and \ \mathbf{x} = (1, x)\]
-therefore, 
-\[p(\mathbf{x}) =  \frac{1}{1+e^{- ( \theta_{0} +  \theta_{1} \cdot  x )}} \]
-\\
-\end{multicols}
-
-\begin{multicols}{2}
-\[p(x) \geq \frac{1}{2}  \Rightarrow class 1\]
-\[p(x)<\frac{1}{2}  \Rightarrow class 0\]
-\columnbreak 
-\[p(\mathbf{x})=P(y=1|\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot\mathbf{x}}}\]
-\[1-p(\mathbf{x})=P(y=0|\mathbf{x}) = \frac{e^{-\bm{\theta} \cdot \mathbf{x}}} {1+e^{-\bm{\theta}\cdot \mathbf{x}}} \]
-\end{multicols}
-
-\end{frame}
-%------------------------------------------------ 
-\begin{frame}
-\begin{centering}
-\begin{aligned}
-class 1 &\Leftrightarrow p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} > \frac{1}{2} \\
-&\Leftrightarrow e^ {-\bm{\theta} \cdot \mathbf{x}} > 1\\
-&\Leftrightarrow \bm{\theta} \cdot \mathbf{x} > 0\\
-\end{aligned}
-\\
-\begin{aligned}
-class 0 &\Leftrightarrow p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} < \frac{1}{2} \\
-&\Leftrightarrow e^ {-\bm{\theta} \cdot \mathbf{x}} < 1\\
-&\Leftrightarrow \bm{\theta} \cdot \mathbf{x} < 0\\
-\end{aligned}
-
-\end{centering}
-%\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} \geq \frac{1}{2} \Leftrightarrow \bm{\theta} \cdot \mathbf{x} > 0 \Rightarrow class 1\]
-%\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} <\frac{1}{2}  \Leftrightarrow \bm{\theta} \cdot \mathbf{x} < 0 \Rightarrow class 0\]
-\\
-\begin{block}{Conclusion}
-\begin{itemize}
-\item Logistic regression gives us a \textbf{linear classifier}. \\
-\item $\bm{\theta}  \cdot \mathbf{x} = 0$ is \textbf{decision boundary}. 
-\end{itemize}
-\end{block}
-\end{frame}
-%------------------------------------------------
-\begin{frame}
-3D Visualization \\
-See a Mathematica Dynamic Visualization
-\end{frame}
-%------------------------------------------------
-\subsection{Likelihood Function for Logistic Regression}
-\begin{frame}
-\frametitle{Maximum Likelihood}
-
-% likelihood
-\begin{equation}
-\begin{aligned}
-L(\bm{\theta}) &= \prod_{i=1}^n P(Y = y_{i}  | X = \mathbf{x}_{i}) = \prod_{y_{i} = 0 } (1-p(\mathbf{x}_{i})) \prod_{y_{i} = 1 } (p(\mathbf{x}_{i})) \\
-&= \prod_{i=1}^{n} p(\mathbf{x}_{i})^{y_{i}} \cdot (1-p(\mathbf{x}_{i}))^{(1-{y_{i}})}
-\end{aligned}
-\end{equation}
-
-\begin{equation}
-\begin{aligned}
-l (\bm{\theta}) &=  \log (L(\bm{\theta}) ) = \sum_{i=1}^{n} y_{i} \log(p(\mathbf{x}_{i}) + (1-y_{i}) \log(1-p(\mathbf{x}_{i})) \\
-&= \sum_{y_{i} = 0 } \log (1-h(\mathbf{x}_{i})) + \sum_{y_{i} = 1} \log (h(\mathbf{x}_{i})) \\
-\end{aligned}
-\end{equation}
-Since $f(x) = log(x)$ is a monotonically increasing function, maximizing $L(\bm{\theta})$ is equivalent as maximizing $l(\bm{\theta})$
-\end{frame}
-%------------------------------------------------
-\begin{frame}
-\frametitle{Maximum Likelihood Estimation}
-Set derivatives equal to zero, then solve, we will find the maximum likelihood.
-Let $p(x) = g(\bm{\theta} \cdot \mathbf{x}) = \frac{1}{1+ e^{-\bm{\theta} \cdot \mathbf{x}}}$
-\begin{equation}
-\begin{aligned}
-l'(\bm{\theta}) &= \frac{\partial l}{\partial \bm{\theta}} =\left(y \frac{1}{g(\bm{\theta} \cdot \mathbf{x})} - (1-y) \frac{1}{1-g(\bm{\theta} \cdot \mathbf{x})}\right) 
-\frac{\partial }{\partial \bm{\theta_{j}}} g(\bm{\theta} \cdot \mathbf{x}) \\
-&= \frac{\partial l}{\partial \bm{\theta}} =\left(y \frac{1}{g(\bm{\theta} \cdot \mathbf{x})} - (1-y) \frac{1}{1-g(\bm{\theta} \cdot \mathbf{x})}\right) 
-g(\bm{\theta} \cdot \mathbf{x})(g(\bm{\theta} \cdot \mathbf{x})) 
-\frac{\partial }{\partial \bm{\theta_{j}}} \bm{\theta} \cdot \mathbf{x} \\
-&= \left(y(1-g(\bm{\theta} \cdot \mathbf{x}) - (1-y) g(\bm{\theta} \cdot \mathbf{x}) \right) x_{j} \\
-&= (y - p(\mathbf{x}))x_{j}
-
-
-Solve for $\bm{\theta}$ by setting $l'(\bm{\theta}) =0$
-
-\end{aligned}
-\end{equation}
-\end{frame}
-%------------------------------------------------
-\subsection{Logistic Regression with More Than Two Classes}
-\begin{frame}
-\frametitle{Logistic Regression with More Than Two Classes}
-If $Y$ can take on $k$ values, i.e. we have $k$ classes, we can still use logistic regression. The predicted conditional probabilities will be 
-\begin{equation}
-P(Y = c | X = \mathbf{x}) = \frac{\exp ({\bm{\theta}^{c} \cdot \mathbf{x} })}{ \sum_{j}^{k} \exp(\bm{\theta}^{j} \cdot \mathbf{x}) }
-\end{equation}
-\end{frame}
-
-%------------------------------------------------
 \subsection{Iris Flower}
 \begin{frame}
 \frametitle{Fisher's Iris}
@@ -312,7 +195,125 @@ sample, they are the length and the width of sepal and petal.
 	\mathbf{x} = (x_ 1, x_ 2) \
 		where \ x_1 = \text{sepal width}, x_2 = \text{petal width}\]
 \end{frame}
+%------------------------------------------------
+\subsection{Sigmoid Function}
+\begin{frame}
+\frametitle{Sigmoid Function}
+\[p(x)=\frac{1}{1+e^{-x}}\]
+\begin{figure}[t]
+\includegraphics[width=5cm]{graphics/1d-sigmoid}
+\centering
+\end{figure}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{multicols}{2} % 2 columns
+\begin{figure}[t]
+\includegraphics[width=5cm]{graphics/1d-sigmoid}
+\centering
+\end{figure}
+\columnbreak  % seperate
+In this example, you can think 
+\[ \bm{\theta} = (\theta_{0}, \theta_{1}) \ and \ \mathbf{x} = (1, x)\]
+therefore, 
+\[p(\mathbf{x}) =  \frac{1}{1+e^{- ( \theta_{0} +  \theta_{1} \cdot  x )}} \]
+\\
+\end{multicols}
 
+\begin{multicols}{2}
+\[p(x) \geq \frac{1}{2}  \Rightarrow class 1\]
+\[p(x)<\frac{1}{2}  \Rightarrow class 0\]
+\columnbreak 
+\[p(\mathbf{x})=P(y=1|\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} ^\intercal\mathbf{x}}}\]
+\[1-p(\mathbf{x})=P(y=0|\mathbf{x}) = \frac{e^{-\bm{\theta} ^\intercal \mathbf{x}}} {1+e^{-\bm{\theta}^\intercal \mathbf{x}}} \]
+\end{multicols}
+
+\end{frame}
+%------------------------------------------------ 
+\begin{frame}
+\begin{centering}
+\begin{aligned}
+class 1 &\Leftrightarrow p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} ^\intercal \mathbf{x}}} > \frac{1}{2} \\
+&\Leftrightarrow e^ {-\bm{\theta} ^\intercal \mathbf{x}} > 1\\
+&\Leftrightarrow \bm{\theta} ^\intercal \mathbf{x} > 0\\
+\end{aligned}
+\\
+\begin{aligned}
+class 0 &\Leftrightarrow p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} ^\intercal \mathbf{x}}} < \frac{1}{2} \\
+&\Leftrightarrow e^ {-\bm{\theta} ^\intercal \mathbf{x}} < 1\\
+&\Leftrightarrow \bm{\theta} ^\intercal \mathbf{x} < 0\\
+\end{aligned}
+
+\end{centering}
+%\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} ^\intercal \mathbf{x}}} \geq \frac{1}{2} \Leftrightarrow \bm{\theta} ^\intercal \mathbf{x} > 0 \Rightarrow class 1\]
+%\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} ^\intercal \mathbf{x}}} <\frac{1}{2}  \Leftrightarrow \bm{\theta} ^\intercal \mathbf{x} < 0 \Rightarrow class 0\]
+\\
+\begin{block}{Conclusion}
+\begin{itemize}
+\item Logistic regression gives us a \textbf{linear classifier}. \\
+\item $\bm{\theta}  ^\intercal \mathbf{x} = 0$ is \textbf{decision boundary}. 
+\end{itemize}
+\end{block}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+3D Visualization \\
+See a Mathematica Dynamic Visualization
+\end{frame}
+%------------------------------------------------
+\subsection{Likelihood Function for Logistic Regression}
+\begin{frame}
+\frametitle{Maximum Likelihood}
+
+% likelihood
+\begin{equation}
+\begin{aligned}
+L(\bm{\theta}) &= \prod_{i=1}^n P(Y = y_{i}  | X = \mathbf{x}_{i}) = \prod_{y_{i} = 0 } (1-p(\mathbf{x}_{i})) \prod_{y_{i} = 1 } (p(\mathbf{x}_{i})) \\
+&= \prod_{i=1}^{n} p(\mathbf{x}_{i})^{y_{i}} ^\intercal (1-p(\mathbf{x}_{i}))^{(1-{y_{i}})}
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+l (\bm{\theta}) &=  \log (L(\bm{\theta}) ) = \sum_{i=1}^{n} y_{i} \log(p(\mathbf{x}_{i}) + (1-y_{i}) \log(1-p(\mathbf{x}_{i})) \\
+&= \sum_{y_{i} = 0 } \log (1-h(\mathbf{x}_{i})) + \sum_{y_{i} = 1} \log (h(\mathbf{x}_{i})) \\
+\end{aligned}
+\end{equation}
+Since $f(x) = log(x)$ is a monotonically increasing function, maximizing $L(\bm{\theta})$ is equivalent as maximizing $l(\bm{\theta})$
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Maximum Likelihood Estimation}
+Set derivatives equal to zero, then solve, we will find the maximum likelihood.
+Let $p(x) = g(\bm{\theta} ^\intercal \mathbf{x}) = \frac{1}{1+ e^{-\bm{\theta} ^\intercal \mathbf{x}}}$
+\begin{equation}
+\begin{aligned}
+l'(\bm{\theta}) &= \frac{\partial l}{\partial \bm{\theta}} =\left(y \frac{1}{g(\bm{\theta} ^\intercal \mathbf{x})} - (1-y) \frac{1}{1-g(\bm{\theta} ^\intercal \mathbf{x})}\right) 
+\frac{\partial }{\partial \bm{\theta_{j}}} g(\bm{\theta} ^\intercal \mathbf{x}) \\
+&= \frac{\partial l}{\partial \bm{\theta}} =\left(y \frac{1}{g(\bm{\theta} ^\intercal \mathbf{x})} - (1-y) \frac{1}{1-g(\bm{\theta} ^\intercal \mathbf{x})}\right) 
+g(\bm{\theta} ^\intercal \mathbf{x})(g(\bm{\theta} ^\intercal \mathbf{x})) 
+\frac{\partial }{\partial \bm{\theta_{j}}} \bm{\theta} ^\intercal \mathbf{x} \\
+&= \left(y(1-g(\bm{\theta} ^\intercal \mathbf{x}) - (1-y) g(\bm{\theta} ^\intercal \mathbf{x}) \right) x_{j} \\
+&= (y - p(\mathbf{x}))x_{j}
+
+
+Solve for $\bm{\theta}$ by setting $l'(\bm{\theta}) =0$
+
+\end{aligned}
+\end{equation}
+\end{frame}
+%------------------------------------------------
+\subsection{Logistic Regression with More Than Two Classes}
+\begin{frame}
+\frametitle{Logistic Regression with More Than Two Classes}
+If $Y$ can take on $k$ values, i.e. we have $k$ classes, we can still use logistic regression. The predicted conditional probabilities will be 
+\begin{equation}
+P(Y = c | X = \mathbf{x}) = \frac{\exp ({\bm{{\theta}^{c}} ^\intercal \mathbf{x}})}{ \sum_{j}^{k} \exp(\bm{{\theta}^{j} }^\intercal \mathbf{x}) }
+\end{equation}
+\end{frame}
+
+
+%------------------------------------------------
 
 %----------------------------------------------------------------------------------------
 %	PRESENTATION SLIDES Section 5  Application
