@@ -113,16 +113,103 @@ Washington University in St. Louis \\ % Your institution for the title page
 \frametitle{Overview} % Table of contents slide, comment this block out to remove it
 \tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
 \end{frame}
+
 %----------------------------------------------------------------------------------------
 %	PRESENTATION SLIDES Section 2
 %----------------------------------------------------------------------------------------
 \section{Logistic Regression} 
+%------------------------------------------------
+\subsection{Sigmoid Function}
 \begin{frame}
-\frametitle{Logistic Regression}
+\frametitle{Sigmoid Function}
+\[p(x)=\frac{1}{1+e^{-x}}\]
+\begin{figure}[t]
+\includegraphics[width=5cm]{graphics/1d-sigmoid}
+\centering
+\end{figure}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{multicols}{2} % 2 columns
+\begin{figure}[t]
+\includegraphics[width=5cm]{graphics/1d-sigmoid}
+\centering
+\end{figure}
+\columnbreak  % seperate
+In this example, you can think 
+\[ \bm{\theta} = (\theta_{0}, \theta_{1}) \ and \ \mathbf{x} = (1, x)\]
+therefore, 
+\[p(\mathbf{x}) =  \frac{1}{1+e^{- ( \theta_{0} +  \theta_{1} \cdot  x )}} \]
+\end{multicols}
+
+\begin{multicols}{2}
+\[p(x) \geq \frac{1}{2}  \Rightarrow class 1\]
+\[p(x)<\frac{1}{2}  \Rightarrow class 0\]
+\columnbreak 
+\[p(\mathbf{x})=P(y=1|\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot\mathbf{x}}}\]
+\[1-p(\mathbf{x})=P(y=0|\mathbf{x}) = \frac{e^{-\bm{\theta} \cdot \mathbf{x}}} {1+e^{-\bm{\theta}\cdot \mathbf{x}}} \]
+\end{multicols}
+
+\end{frame}
+%------------------------------------------------ 
+\begin{frame}
+\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} \geq \frac{1}{2} \Leftrightarrow \bm{\theta} \cdot \mathbf{x} > 0 \Rightarrow class 1\]
+\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} <\frac{1}{2}  \Leftrightarrow \bm{\theta} \cdot \mathbf{x} < 0 \Rightarrow class 0\]
+\\
+\begin{block}{Conclusion}
 \begin{itemize}
-\item Binary Classification
-\item Multi-class Classification
+\item Logistic regression gives us a \textbf{linear classifier}. \\
+\item $\bm{\theta}  \cdot \mathbf{x} = 0$ is \textbf{decision boundary}. 
 \end{itemize}
+\end{block}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+3D Visualization \\
+See a Mathematica Dynamic Visualization
+\end{frame}
+%------------------------------------------------
+\subsection{Likelihood Function for Logistic Regression}
+\begin{frame}
+\frametitle{Maximum Likelihood}
+
+% likelihood
+\begin{equation}
+\begin{aligned}
+L(\bm{\theta}) &= \prod_{i=1}^n P(Y = y_{i}  | X = \mathbf{x}_{i}) = \prod_{y_{i} = 0 } (1-p(\mathbf{x}_{i})) \prod_{y_{i} = 1 } (p(\mathbf{x}_{i})) \\
+&= \prod_{i=1}^{n} p(\mathbf{x}_{i})^{y_{i}} \cdot (1-p(\mathbf{x}_{i}))^{(1-{y_{i}})}
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+l (\bm{\theta}) &=  \log (L(\bm{\theta}) ) = \sum_{i=1}^{n} y_{i} \log(p(\mathbf{x}_{i}) + (1-y_{i}) \log(1-p(\mathbf{x}_{i})) \\
+&= \sum_{y_{i} = 0 } \log (1-h(\mathbf{x}_{i})) + \sum_{y_{i} = 1} \log (h(\mathbf{x}_{i})) \\
+\end{aligned}
+\end{equation}
+Since $f(x) = log(x)$ is a monotonically increasing function, maximizing $L(\bm{\theta})$ is equivalent as maximizing $l(\bm{\theta})$
+\end{frame}
+%------------------------------------------------
+%\begin{frame}
+%\frametitle{Maximum Likelihood Estimation}
+%Set derivatives equal to zero, then solve, we will find the maximum likelihood.
+%
+%\begin{equation}
+%\begin{aligned}
+%
+%\frac{d l}{d \theta_{j}} &= 
+%
+%\end{aligned}
+%\end{equation}
+%\end{frame}
+%%------------------------------------------------
+\subsection{Logistic Regression with More Than Two Classes}
+\begin{frame}
+\frametitle{Logistic Regression with More Than Two Classes}
+If $Y$ can take on $k$ values, i.e. we have $k$ classes, we can still use logistic regression. The predicted conditional probabilities will be
+\begin{equation}
+P(Y = c | X = \mathbf{x}) = \frac{\exp ({\bm{\theta}^{c} \cdot \mathbf{x} })}{ \sum_{j}^{k} \exp(\bm{\theta}^{j} \cdot \mathbf{x}) }
+\end{equation}
 \end{frame}
 
 %------------------------------------------------
@@ -194,98 +281,6 @@ sample, they are the length and the width of sepal and petal.
 	\mathbf{x} = (x_ 1, x_ 2) \
 		where \ x_1 = \text{sepal width}, x_2 = \text{petal width}\]
 \end{frame}
-%------------------------------------------------
-\begin{frame}
-\frametitle{Sigmoid Function}
-\[p(x)=\frac{1}{1+e^{-x}}\]
-\begin{figure}[t]
-\includegraphics[width=5cm]{graphics/1d-sigmoid}
-\centering
-\end{figure}
-\end{frame}
-%------------------------------------------------
-\begin{frame}
-\begin{multicols}{2} % 2 columns
-\begin{figure}[t]
-\includegraphics[width=5cm]{graphics/1d-sigmoid}
-\centering
-\end{figure}
-\columnbreak  % seperate
-In this example, you can think 
-\[ \bm{\theta} = (\theta_{0}, \theta_{1}) \ and \ \mathbf{x} = (1, x)\]
-therefore, 
-\[p(\mathbf{x}) =  \frac{1}{1+e^{- ( \theta_{0} +  \theta_{1} \cdot  x )}} \]
-\end{multicols}
-
-\begin{multicols}{2}
-\[p(x) \geq \frac{1}{2}  \Rightarrow class 1\]
-\[p(x)<\frac{1}{2}  \Rightarrow class 0\]
-\columnbreak 
-\[p(\mathbf{x})=P(y=1|\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot\mathbf{x}}}\]
-\[1-p(\mathbf{x})=P(y=0|\mathbf{x}) = \frac{e^{-\bm{\theta} \cdot \mathbf{x}}} {1+e^{-\bm{\theta}\cdot \mathbf{x}}} \]
-\end{multicols}
-
-\end{frame}
-%------------------------------------------------ 
-\begin{frame}
-\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} \geq \frac{1}{2} \Leftrightarrow \bm{\theta} \cdot \mathbf{x} > 0 \Rightarrow class 1\]
-\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} <\frac{1}{2}  \Leftrightarrow \bm{\theta} \cdot \mathbf{x} < 0 \Rightarrow class 0\]
-\\
-\begin{block}{Conclusion}
-\begin{itemize}
-\item Logistic regression gives us a \textbf{linear classifier}. \\
-\item $\bm{\theta}  \cdot \mathbf{x} = 0$ is \textbf{decision boundary}. 
-\end{itemize}
-\end{block}
-\end{frame}
-%------------------------------------------------
-\begin{frame}
-3D Visualization \\
-See a Mathematica Dynamic Visualization
-\end{frame}
-%------------------------------------------------
-\subsection{Likelihood Function for Logistic Regression}
-\begin{frame}
-\frametitle{Maximum Likelihood}
-
-% likelihood
-\begin{equation}
-\begin{aligned}
-L(\bm{\theta}) &= \prod_{i=1}^n P(Y = y_{i}  | X = \mathbf{x}_{i}) = \prod_{y_{i} = 0 } (1-p(\mathbf{x}_{i})) \prod_{y_{i} = 1 } (p(\mathbf{x}_{i})) \\
-&= \prod_{i=1}^{n} p(x_{i})^{y_{i}} \cdot (1-p(x_{i}))^{(1-{y_{i}})}
-\end{aligned}
-\end{equation}
-
-\begin{equation}
-\begin{aligned}
-l (\bm{\theta}) &=  \log (L(\bm{\theta}) ) = \sum_{i=1}^{n} y_{i} \log(p(x_{i}) + (1-y_{i}) \log(1-p(x_{i})) \\
-&= \sum_{y_{i} = 0 } \log (1-h(x_{i})) \sum_{y_{i} = 1} \log (h(x_{i})) \\
-\end{aligned}
-\end{equation}
-Since $f(x) = log(x)$ is a monotonically increasing function, maximizing $L(\bm{\theta})$ is equivalent as maximizing $l(\bm{\theta})$
-\end{frame}
-%------------------------------------------------
-\begin{frame}
-\frametitle{Maximum Likelihood Estimation}
-Set derivatives equal to zero, then solve, we will find the maximum likelihood.
-
-%\begin{equation}
-%\begin{aligned}
-%\frac {\partial l} {\partial \theta_{j}} = - \sum_{i=1}^{n} ddd
-%
-%\end{aligned}
-%\end{equation}
-\end{frame}
-%------------------------------------------------
-\subsection{Logistic Regression with More Than Two Classes}
-\begin{frame}
-\frametitle{Logistic Regression with More Than Two Classes}
-\begin{equation}
-P(Y = c | X = x) = \frac{exp ({w x })}{ \sum_{k}^N exp(w x) }
-\end{equation}
-Typically, to find the maximum likelihood estimates, we'd differentiate the log-likelihood with respect to the parameters. Set the derivative equal to zero, and solve. 
-\end{frame}
-
 %------------------------------------------------
 
 \begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
