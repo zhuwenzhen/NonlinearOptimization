@@ -99,7 +99,7 @@
 {
 Washington University in St. Louis \\ % Your institution for the title page
 \medskip
-\textit{@wustl.edu} % Your email address
+\textit{CSE 543T} % Class Number
 }
 \date{\today} % Date, can be changed to a custom date
 
@@ -113,11 +113,11 @@ Washington University in St. Louis \\ % Your institution for the title page
 \frametitle{Overview} % Table of contents slide, comment this block out to remove it
 \tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
 \end{frame}
-
 %----------------------------------------------------------------------------------------
 %	PRESENTATION SLIDES Section 2
 %----------------------------------------------------------------------------------------
 \section{Logistic Regression} 
+
 %------------------------------------------------
 \subsection{Sigmoid Function}
 \begin{frame}
@@ -140,6 +140,7 @@ In this example, you can think
 \[ \bm{\theta} = (\theta_{0}, \theta_{1}) \ and \ \mathbf{x} = (1, x)\]
 therefore, 
 \[p(\mathbf{x}) =  \frac{1}{1+e^{- ( \theta_{0} +  \theta_{1} \cdot  x )}} \]
+\\
 \end{multicols}
 
 \begin{multicols}{2}
@@ -153,8 +154,22 @@ therefore,
 \end{frame}
 %------------------------------------------------ 
 \begin{frame}
-\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} \geq \frac{1}{2} \Leftrightarrow \bm{\theta} \cdot \mathbf{x} > 0 \Rightarrow class 1\]
-\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} <\frac{1}{2}  \Leftrightarrow \bm{\theta} \cdot \mathbf{x} < 0 \Rightarrow class 0\]
+\begin{centering}
+\begin{aligned}
+class 1 &\Leftrightarrow p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} > \frac{1}{2} \\
+&\Leftrightarrow e^ {-\bm{\theta} \cdot \mathbf{x}} > 1\\
+&\Leftrightarrow \bm{\theta} \cdot \mathbf{x} > 0\\
+\end{aligned}
+\\
+\begin{aligned}
+class 0 &\Leftrightarrow p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} < \frac{1}{2} \\
+&\Leftrightarrow e^ {-\bm{\theta} \cdot \mathbf{x}} < 1\\
+&\Leftrightarrow \bm{\theta} \cdot \mathbf{x} < 0\\
+\end{aligned}
+
+\end{centering}
+%\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} \geq \frac{1}{2} \Leftrightarrow \bm{\theta} \cdot \mathbf{x} > 0 \Rightarrow class 1\]
+%\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} \cdot \mathbf{x}}} <\frac{1}{2}  \Leftrightarrow \bm{\theta} \cdot \mathbf{x} < 0 \Rightarrow class 0\]
 \\
 \begin{block}{Conclusion}
 \begin{itemize}
@@ -190,23 +205,31 @@ l (\bm{\theta}) &=  \log (L(\bm{\theta}) ) = \sum_{i=1}^{n} y_{i} \log(p(\mathbf
 Since $f(x) = log(x)$ is a monotonically increasing function, maximizing $L(\bm{\theta})$ is equivalent as maximizing $l(\bm{\theta})$
 \end{frame}
 %------------------------------------------------
-%\begin{frame}
-%\frametitle{Maximum Likelihood Estimation}
-%Set derivatives equal to zero, then solve, we will find the maximum likelihood.
-%
-%\begin{equation}
-%\begin{aligned}
-%
-%\frac{d l}{d \theta_{j}} &= 
-%
-%\end{aligned}
-%\end{equation}
-%\end{frame}
-%%------------------------------------------------
+\begin{frame}
+\frametitle{Maximum Likelihood Estimation}
+Set derivatives equal to zero, then solve, we will find the maximum likelihood.
+Let $p(x) = g(\bm{\theta} \cdot \mathbf{x}) = \frac{1}{1+ e^{-\bm{\theta} \cdot \mathbf{x}}}$
+\begin{equation}
+\begin{aligned}
+l'(\bm{\theta}) &= \frac{\partial l}{\partial \bm{\theta}} =\left(y \frac{1}{g(\bm{\theta} \cdot \mathbf{x})} - (1-y) \frac{1}{1-g(\bm{\theta} \cdot \mathbf{x})}\right) 
+\frac{\partial }{\partial \bm{\theta_{j}}} g(\bm{\theta} \cdot \mathbf{x}) \\
+&= \frac{\partial l}{\partial \bm{\theta}} =\left(y \frac{1}{g(\bm{\theta} \cdot \mathbf{x})} - (1-y) \frac{1}{1-g(\bm{\theta} \cdot \mathbf{x})}\right) 
+g(\bm{\theta} \cdot \mathbf{x})(g(\bm{\theta} \cdot \mathbf{x})) 
+\frac{\partial }{\partial \bm{\theta_{j}}} \bm{\theta} \cdot \mathbf{x} \\
+&= \left(y(1-g(\bm{\theta} \cdot \mathbf{x}) - (1-y) g(\bm{\theta} \cdot \mathbf{x}) \right) x_{j} \\
+&= (y - p(\mathbf{x}))x_{j}
+
+
+Solve for $\bm{\theta}$ by setting $l'(\bm{\theta}) =0$
+
+\end{aligned}
+\end{equation}
+\end{frame}
+%------------------------------------------------
 \subsection{Logistic Regression with More Than Two Classes}
 \begin{frame}
 \frametitle{Logistic Regression with More Than Two Classes}
-If $Y$ can take on $k$ values, i.e. we have $k$ classes, we can still use logistic regression. The predicted conditional probabilities will be
+If $Y$ can take on $k$ values, i.e. we have $k$ classes, we can still use logistic regression. The predicted conditional probabilities will be 
 \begin{equation}
 P(Y = c | X = \mathbf{x}) = \frac{\exp ({\bm{\theta}^{c} \cdot \mathbf{x} })}{ \sum_{j}^{k} \exp(\bm{\theta}^{j} \cdot \mathbf{x}) }
 \end{equation}
@@ -220,6 +243,7 @@ The data set consists of 50 samples from each of three
 species of iris flowers.  Four features were measured from each
 sample, they are the length and the width of sepal and petal. This data set is often used
 to demonstrate classification techniques and discriminant analysis.
+
 \begin{figure}[htbp] \centering \subfloat[setosa]{
     \label{fig:subfig_a}
     \includegraphics[scale=.4]{graphics/setosa}
@@ -249,18 +273,26 @@ sample, they are the length and the width of sepal and petal.
 %------------------------------------------------
 \begin{frame}
 \frametitle{Sample Data}
+
 \begin{table}
 \begin{tabular}{lllll}
 \hline
 \textbf{Sepal Length} & \textbf{ Sepal Width } & \textbf{Petal Length} & \textbf{Petal Width} & \textbf{Species}\\
 \hline
-5.8 & 4.   & 1.2 & 0.2 & setosa\\
+5.8 & 4.0 & 1.2 & 0.2 & setosa\\
 6.4 & 2.8 & 5.6 & 2.1 & virginica\\
 6.7 & 3.1 & 5.6 & 2.4 & virginica \\
 \hline
 \end{tabular}
 \caption{Fisher's Iris Dataset Sample}
 \end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=.23]{graphics/iris_feature} \caption{Features}
+\end{figure}
+
+
 \end{frame}
 %------------------------------------------------
 \begin{frame}
@@ -271,7 +303,6 @@ sample, they are the length and the width of sepal and petal.
 \end{figure}
 \end{frame}
 %------------------------------------------------
-\subsection{Binary Classification}
 \begin{frame}
 \frametitle{}
 \[\text{Let's start from binary classification y $\in $ $\{$0, 1$\}$}\]
@@ -281,7 +312,38 @@ sample, they are the length and the width of sepal and petal.
 	\mathbf{x} = (x_ 1, x_ 2) \
 		where \ x_1 = \text{sepal width}, x_2 = \text{petal width}\]
 \end{frame}
+
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES Section 5  Application
+%----------------------------------------------------------------------------------------
+\section{Application} 
 %------------------------------------------------
+\subsection{MNIST}
+\begin{frame}
+\frametitle{Logistic Regression on MNIST Dataset}
+Let's take a look of a fast prototype..
+\begin{figure}[t]
+\includegraphics[width=10cm]{graphics/mnist}
+\centering
+\end{figure}
+\end{frame}
+%------------------------------------------------
+\subsection{CIFAR-10}
+\begin{frame}
+\frametitle{Logistic Regression on CIFAR-10 Dataset}
+CIFAR-10  is an established computer-vision dataset used for object recognition. It consists of 60,000 32x32 color images containing one of 10 object classes, with 6000 images per class. 
+Here are the classes in the dataset, as well as 10 random images from each:
+\begin{figure}[t]
+\includegraphics[width=7cm]{graphics/cifar-10}
+\centering
+\end{figure}
+\end{frame}
+%------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES EXTRA
+%----------------------------------------------------------------------------------------
 
 \begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
 \frametitle{Citation}
