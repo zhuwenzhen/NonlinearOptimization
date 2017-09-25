@@ -84,8 +84,6 @@
 \usepackage{subfig}
 \usepackage{multicol}
 \usepackage{ amssymb }
-%\usepackage{physics}
-%\usepackage{sfmath}
 \usepackage{amsmath,amsfonts,amsthm,bm} % Math packages
 \DeclareMathAlphabet{\mathbbm}{U}{bbm}{m}{n}
 %----------------------------------------------------------------------------------------
@@ -118,6 +116,9 @@ Washington University in St. Louis \\ % Your institution for the title page
 %----------------------------------------------------------------------------------------
 \section{Logistic Regression} 
 
+\begin{frame}
+\huge{\centerline{Section 2: Logistic Regression Model}}
+\end{frame}
 %------------------------------------------------
 \subsection{Iris Flower}
 \begin{frame}
@@ -194,6 +195,15 @@ sample, they are the length and the width of sepal and petal.
 \[	
 	\mathbf{x} = (x_ 1, x_ 2) \
 		where \ x_1 = \text{sepal width}, x_2 = \text{petal width}\]
+		
+\begin{figure}[htbp] \centering 
+\subfloat[versicolor 0]{
+    \includegraphics[scale=.4]{graphics/versicolor}
+}
+\hspace{20pt} \subfloat[virginica 1]{
+    \includegraphics[scale=.4]{graphics/virginica}
+}
+\end{figure}
 \end{frame}
 %------------------------------------------------
 \subsection{Sigmoid Function}
@@ -224,29 +234,32 @@ therefore,
 \[p(x) \geq \frac{1}{2}  \Rightarrow class 1\]
 \[p(x)<\frac{1}{2}  \Rightarrow class 0\]
 \columnbreak 
-\[p(\mathbf{x})=P(y=1|\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} ^\intercal\mathbf{x}}}\]
-\[1-p(\mathbf{x})=P(y=0|\mathbf{x}) = \frac{e^{-\bm{\theta} ^\intercal \mathbf{x}}} {1+e^{-\bm{\theta}^\intercal \mathbf{x}}} \]
+\[p(\mathbf{x})=P(y=1|\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} ^ {\intercal} \mathbf{x}}}\]
+\[1-p(\mathbf{x})=P(y=0|\mathbf{x}) = \frac{e^{-\bm{\theta} ^ {\intercal} \mathbf{x}}} {1+e^{-\bm{\theta}^\intercal \mathbf{x}}} \]
 \end{multicols}
 
 \end{frame}
 %------------------------------------------------ 
 \begin{frame}
 \begin{centering}
+\begin{equation}
 \begin{aligned}
-class 1 &\Leftrightarrow p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} ^\intercal \mathbf{x}}} > \frac{1}{2} \\
-&\Leftrightarrow e^ {-\bm{\theta} ^\intercal \mathbf{x}} > 1\\
-&\Leftrightarrow \bm{\theta} ^\intercal \mathbf{x} > 0\\
+class 1 &\Leftrightarrow p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} ^ {\intercal} \mathbf{x}}} > \frac{1}{2} \\
+&\Leftrightarrow e^ {-\bm{\theta} ^ {\intercal} \mathbf{x}} > 1\\
+&\Leftrightarrow \bm{\theta} ^ {\intercal} \mathbf{x} > 0\\
 \end{aligned}
+\end{equation}
 \\
+\begin{equation}
 \begin{aligned}
-class 0 &\Leftrightarrow p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} ^\intercal \mathbf{x}}} < \frac{1}{2} \\
-&\Leftrightarrow e^ {-\bm{\theta} ^\intercal \mathbf{x}} < 1\\
-&\Leftrightarrow \bm{\theta} ^\intercal \mathbf{x} < 0\\
+class 0 &\Leftrightarrow p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} ^ {\intercal} \mathbf{x}}} < \frac{1}{2} \\
+&\Leftrightarrow e^ {-\bm{\theta} ^ {\intercal} \mathbf{x}} < 1\\
+&\Leftrightarrow \bm{\theta} ^ {\intercal} \mathbf{x} < 0\\
 \end{aligned}
-
+\end{equation}
 \end{centering}
-%\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} ^\intercal \mathbf{x}}} \geq \frac{1}{2} \Leftrightarrow \bm{\theta} ^\intercal \mathbf{x} > 0 \Rightarrow class 1\]
-%\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta} ^\intercal \mathbf{x}}} <\frac{1}{2}  \Leftrightarrow \bm{\theta} ^\intercal \mathbf{x} < 0 \Rightarrow class 0\]
+%\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta \intercal} \mathbf{x}}} \geq \frac{1}{2} \Leftrightarrow \bm{\theta \intercal} \mathbf{x} > 0 \Rightarrow class 1\]
+%\[p(\mathbf{x}) = \frac{1}{1+e^{-\bm{\theta \intercal} \mathbf{x}}} <\frac{1}{2}  \Leftrightarrow \bm{\theta \intercal} \mathbf{x} < 0 \Rightarrow class 0\]
 \\
 \begin{block}{Conclusion}
 \begin{itemize}
@@ -265,18 +278,36 @@ See a Mathematica Dynamic Visualization
 \begin{frame}
 \frametitle{Maximum Likelihood}
 
+We can assume that
+\[P(y = 1 | \mathbf{x}) = p(\mathbf{x})\]
+\[P(y = 0 | \mathbf{x}) = 1- p(\mathbf{x})\]
+
+The likelihood function L, which quantifies how likely output is given input, is defined as follows:
 % likelihood
 \begin{equation}
 \begin{aligned}
 L(\bm{\theta}) &= \prod_{i=1}^n P(Y = y_{i}  | X = \mathbf{x}_{i}) = \prod_{y_{i} = 0 } (1-p(\mathbf{x}_{i})) \prod_{y_{i} = 1 } (p(\mathbf{x}_{i})) \\
-&= \prod_{i=1}^{n} p(\mathbf{x}_{i})^{y_{i}} ^\intercal (1-p(\mathbf{x}_{i}))^{(1-{y_{i}})}
+&= \prod_{i=1}^{n} p(\mathbf{x}_{i})^{y_{i}} (1-p(\mathbf{x}_{i}))^{(1-{y_{i}})}
+\end{aligned}
+\end{equation}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Maximum Likelihood}
+
+% likelihood
+\begin{equation}
+\begin{aligned}
+L(\bm{\theta}) &= \prod_{i=1}^n P(Y = y_{i}  | X = \mathbf{x}_{i}) = \prod_{y_{i} = 0 } (1-p(\mathbf{x}_{i})) \prod_{y_{i} = 1 } (p(\mathbf{x}_{i})) \\
+&= \prod_{i=1}^{n} p(\mathbf{x}_{i})^{y_{i} }(1-p(\mathbf{x}_{i}))^{(1-{y_{i}})}
 \end{aligned}
 \end{equation}
 
 \begin{equation}
 \begin{aligned}
 l (\bm{\theta}) &=  \log (L(\bm{\theta}) ) = \sum_{i=1}^{n} y_{i} \log(p(\mathbf{x}_{i}) + (1-y_{i}) \log(1-p(\mathbf{x}_{i})) \\
-&= \sum_{y_{i} = 0 } \log (1-h(\mathbf{x}_{i})) + \sum_{y_{i} = 1} \log (h(\mathbf{x}_{i})) \\
+&= \sum_{y_{i} = 0 } \log (1-p(\mathbf{x}_{i})) + \sum_{y_{i} = 1} \log (p(\mathbf{x}_{i})) \\
 \end{aligned}
 \end{equation}
 Since $f(x) = log(x)$ is a monotonically increasing function, maximizing $L(\bm{\theta})$ is equivalent as maximizing $l(\bm{\theta})$
@@ -285,22 +316,24 @@ Since $f(x) = log(x)$ is a monotonically increasing function, maximizing $L(\bm{
 \begin{frame}
 \frametitle{Maximum Likelihood Estimation}
 Set derivatives equal to zero, then solve, we will find the maximum likelihood.
-Let $p(x) = g(\bm{\theta} ^\intercal \mathbf{x}) = \frac{1}{1+ e^{-\bm{\theta} ^\intercal \mathbf{x}}}$
+Let $p(x) = g(\bm{\theta}^{\intercal} \mathbf{x}) = \frac{1}{1+ e^{-\bm{\theta}^{\intercal} \mathbf{x}}}$
+
 \begin{equation}
 \begin{aligned}
-l'(\bm{\theta}) &= \frac{\partial l}{\partial \bm{\theta}} =\left(y \frac{1}{g(\bm{\theta} ^\intercal \mathbf{x})} - (1-y) \frac{1}{1-g(\bm{\theta} ^\intercal \mathbf{x})}\right) 
-\frac{\partial }{\partial \bm{\theta_{j}}} g(\bm{\theta} ^\intercal \mathbf{x}) \\
-&= \frac{\partial l}{\partial \bm{\theta}} =\left(y \frac{1}{g(\bm{\theta} ^\intercal \mathbf{x})} - (1-y) \frac{1}{1-g(\bm{\theta} ^\intercal \mathbf{x})}\right) 
-g(\bm{\theta} ^\intercal \mathbf{x})(g(\bm{\theta} ^\intercal \mathbf{x})) 
-\frac{\partial }{\partial \bm{\theta_{j}}} \bm{\theta} ^\intercal \mathbf{x} \\
-&= \left(y(1-g(\bm{\theta} ^\intercal \mathbf{x}) - (1-y) g(\bm{\theta} ^\intercal \mathbf{x}) \right) x_{j} \\
+l'(\bm{\theta}) &= \frac{\partial l}{\partial \bm{\theta}} =\left(y \frac{1}{g(\bm{\theta}^{\intercal} \mathbf{x})} - (1-y) \frac{1}{1-g(\bm{\theta}^{\intercal} \mathbf{x})}\right) 
+\frac{\partial }{\partial \bm{\theta}_{j}} g(\bm{\theta}^{\intercal} \mathbf{x}) \\
+&= \frac{\partial l}{\partial \bm{\theta}} =\left(y \frac{1}{g(\bm{\theta}^{\intercal} \mathbf{x})} - (1-y) \frac{1}{1-g(\bm{\theta}^{\intercal} \mathbf{x})}\right) 
+g(\bm{\theta}^{\intercal} \mathbf{x})(g(\bm{\theta}^{\intercal} \mathbf{x})) 
+\frac{\partial }{\partial \bm{\theta}_{j}} \bm{\theta}^{\intercal} \mathbf{x} \\
+&= \left(y(1-g(\bm{\theta}^{\intercal} \mathbf{x}) - (1-y) g(\bm{\theta}^{\intercal} \mathbf{x}) \right) x_{j} \\
 &= (y - p(\mathbf{x}))x_{j}
-
-
-Solve for $\bm{\theta}$ by setting $l'(\bm{\theta}) =0$
-
 \end{aligned}
 \end{equation}
+
+Solve for $\bm{\theta}$ by setting $l'(\bm{\theta}) =0$ \\
+Let's go back to our iris flower and take a look of a concrete example!
+
+
 \end{frame}
 %------------------------------------------------
 \subsection{Logistic Regression with More Than Two Classes}
@@ -308,17 +341,47 @@ Solve for $\bm{\theta}$ by setting $l'(\bm{\theta}) =0$
 \frametitle{Logistic Regression with More Than Two Classes}
 If $Y$ can take on $k$ values, i.e. we have $k$ classes, we can still use logistic regression. The predicted conditional probabilities will be 
 \begin{equation}
-P(Y = c | X = \mathbf{x}) = \frac{\exp ({\bm{{\theta}^{c}} ^\intercal \mathbf{x}})}{ \sum_{j}^{k} \exp(\bm{{\theta}^{j} }^\intercal \mathbf{x}) }
+P(Y = c | X = \mathbf{x}) = \frac{\exp ({{\bm{\theta}}^{c}}^ {\intercal} \mathbf{x})} { \sum_{j}^{k} \exp({{\bm{\theta}}^{j}}^ {\intercal}\mathbf{x}) }
 \end{equation}
 \end{frame}
-
-
 %------------------------------------------------
-
+% Regularization
+%------------------------------------------------
+% Frame 1
+\begin{frame}
+\frametitle{Regularization}
+\begin{itemize}
+\item If the parameters are assumed to have a prior distribution, then we need to perform \textit{maximum a posteriori} (MAP) estimation.
+\item Let $P(\mathbf{\theta}) = \text{exp}(-\frac{||\mathbf{\theta}||^2}{2 \sigma^2})$. Then
+\begin{equation}
+\begin{split}
+\mathbf{\theta}^* &= \text{argmax} (\prod_{i=1}^n P(y_i|\mathbf{x_i, \theta}) P(\mathbf{\theta}))\\
+&= \text{argmin} (-\log (\prod_{i=1}^n P(y_i|\mathbf{x_i, \theta}) P(\mathbf{\theta})))\\
+&= \text{argmin} (-\log (\prod_{i=1}^n P(y_i|\mathbf{x_i, \theta}) - \log P(\theta))\\
+&= \text{argmin} (-\log (\prod_{i=1}^n P(y_i|\mathbf{x_i, \theta}) + \frac{||\mathbf{\theta}||^2}{2 \sigma^2})
+\end{split}
+\end{equation}
+\end{itemize}
+\end{frame}
+%------------------------------------------------
+% Frame 2
+\begin{frame}
+\frametitle{Regularization}
+\begin{itemize}
+\item Replacing $\lambda = \frac{1}{2 \sigma^2}$, the MAP estimator minimizes the negative log-likelihood added with an L2 regularization term.
+\item Adding a regularization term prevents overfitting by increasing training error but reducing generalization error. $\lambda$ controls the extent of regularization.
+\item Varying the prior function leads to different types of regularization, e.g. a Laplacian prior produces L1 regularization.
+\end{itemize}
+\end{frame}
+%------------------------------------------------
 %----------------------------------------------------------------------------------------
 %	PRESENTATION SLIDES Section 5  Application
 %----------------------------------------------------------------------------------------
 \section{Application} 
+%------------------------------------------------
+\begin{frame}
+\huge{\centerline{Section 5: Application}}
+\end{frame}
 %------------------------------------------------
 \subsection{MNIST}
 \begin{frame}
